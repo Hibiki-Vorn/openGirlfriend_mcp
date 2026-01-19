@@ -38,14 +38,14 @@ server.registerTool(
     title: "Web knowledge lookup",
     description:
       "Use this tool when factual knowledge or external information is required. " +
-      "Returns a concise summary, related concepts, and known limitations.",
+      "Returns a concise summary, related concepts, and known limitations." +
+      "DuckDuckGo Instant Answer API is used as the data source.",
     inputSchema: {
       keywords: z.string(),
-      lang: z.string().optional().default("us-en"),
     },
   },
-  async ({ keywords, lang }) => {
-    const result = await web_search_tool(keywords, lang);
+  async ({ keywords }) => {
+    const result = await web_search_tool(keywords);
     return {
       content: [{ type: "text", text: JSON.stringify(result) }],
     };

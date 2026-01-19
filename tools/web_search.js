@@ -1,38 +1,26 @@
-export default async function web_search(keywords, lang = "us-en") {
-  try {
-    const url =
-      `https://api.duckduckgo.com/?` +
-      `q=${encodeURIComponent(keywords)}` +
-      `&format=json&no_redirect=1&no_html=1&kl=${lang}`;
+import { JSDOM } from "jsdom";
 
-    const res = await fetch(url);
-    const raw = await res.json();
+export default async function web_search(keywords) {
+  const url = `https://lite.duckduckgo.com/lite/?q=${encodeURIComponent(keywords)}`;
+  const response = await fetch(url, {
+    headers: {
+      "User-Agent": "Mozilla/5.0",
+    },
+  });
 
-    return {
-      query: keywords,
-      summary: raw?.AbstractText ?? "",
-      confidence: raw?.AbstractText ? 0.7 : 0.2,
-      sources: raw?.AbstractSource
-        ? [{ name: raw.AbstractSource }]
-        : [],
-      related_topics: Array.isArray(raw?.RelatedTopics)
-        ? raw.RelatedTopics
-            .map(t => t?.Text)
-            .filter(Boolean)
-            .map(t => t.split(" - ")[0])
-        : [],
-      limitations: [
-        "DuckDuckGo Instant Answer API only provides summaries"
-      ]
-    };
-  } catch (e) {
-    return {
-      query: keywords,
-      summary: "",
-      confidence: 0,
-      sources: [],
-      related_topics: [],
-      limitations: ["Web search failed"]
-    };
+  const html = await response.text();
+  const window = (new JSDOM(html)).window;
+
+  const results = window.document.querySelectorAll('table[border] > tbody')[1];
+
+  let data = [];
+
+  for (let index = 0; index < results.children.length - 4 ; index += 4) {
+    data.push({
+      title: results.children[index].querySelector('a').textContent,
+      detail: results.children[index+1].querySelector('.result-snippet').textContent,
+      source: results.children[index + 2].querySelector('.link-text').textContent,
+    });
   }
+  return data;
 }
