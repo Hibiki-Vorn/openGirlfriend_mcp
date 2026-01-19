@@ -15,6 +15,9 @@ server.registerTool(
   "shell",
   {
     title: "Execute a shell command",
+    description:
+      "Use this tool to execute shell commands on the server. " +
+      "Be cautious with commands that may affect system stability or security.",
     inputSchema: {
       command: z.string(),
       timeout: z.number().optional(),
@@ -44,7 +47,7 @@ server.registerTool(
   async ({ keywords, lang }) => {
     const result = await web_search_tool(keywords, lang);
     return {
-      content: [{ type: "json", data: result }],
+      content: [{ type: "text", text: JSON.stringify(result) }],
     };
   }
 );
