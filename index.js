@@ -5,6 +5,7 @@ import { z } from "zod";
 import shell_tool from "./tools/shell_tool.js";
 import web_search_tool from "./tools/web_search.js";
 import simple_calculate from "./tools/simple_calculate.js";
+import qrcode_generate from "./tools/qrcode_generate.js";
 
 const server = new McpServer({
   name: "girlfriend-ability",
@@ -67,6 +68,22 @@ server.registerTool(
     const result = await simple_calculate(expression);
     return {
       content: [{ type: "text", text: result }],
+    };
+  }
+);
+
+server.registerTool(
+  "qrcode_generate",
+  {
+    title: "QR Code Generator",
+    description: "Generate a QR code image from the provided text.",
+    inputSchema: {
+      text: z.string(),
+    },
+  },
+  async ({ text }) => {
+    return {
+      content: [{ type: "text", text: await qrcode_generate(text) }],
     };
   }
 );
