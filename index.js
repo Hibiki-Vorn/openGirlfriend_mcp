@@ -82,8 +82,9 @@ server.registerTool(
     },
   },
   async ({ text }) => {
+    const filePath = await qrcode_generate(text);
     return {
-      content: [{ type: "text", text: await qrcode_generate(text) }],
+      content: [{ type: "text", text: filePath }],
     };
   }
 );

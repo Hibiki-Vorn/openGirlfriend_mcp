@@ -1,19 +1,19 @@
 import { execFile } from "child_process";
 
 const DISALLOWED_COMMANDS = new Set([
-    "rm",
-    "shutdown",
-    "reboot",
-    "init",
-    "telinit",
-    "mkfs",
-    "dd",
-    "chmod",
-    "chown",
-    "passwd",
-    "kill",
-    "pkill",
-    "killall",
+  "rm",
+  "shutdown",
+  "reboot",
+  "init",
+  "telinit",
+  "mkfs",
+  "dd",
+  "chmod",
+  "chown",
+  "passwd",
+  "kill",
+  "pkill",
+  "killall",
 ]);
 
 const FORBIDDEN_CHARS = /[;&|><`$()]/;
