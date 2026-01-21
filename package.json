@@ -15,6 +15,7 @@
     "@modelcontextprotocol/sdk": "^1.25.2",
     "jsdom": "^27.4.0",
     "mathjs": "^15.1.0",
+    "openpgp": "^6.3.0",
     "qrcode": "^1.5.4"
   }
 }
