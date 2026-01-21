@@ -58,8 +58,8 @@ server.registerTool(
   {
     title: "Simple mathematical expression calculator",
     description:
-      "Use this tool to evaluate simple mathematical expressions. " +
-      "Supports addition, subtraction, multiplication, division, exponentiation, and parentheses.",
+      "Use this tool to evaluate mathematical expressions by mathjs. " +
+      "Supports any mathematical expression which mathjs supports.",
     inputSchema: {
       expression: z.string(),
     },
